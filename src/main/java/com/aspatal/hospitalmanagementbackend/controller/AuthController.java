@@ -24,17 +24,5 @@ public class AuthController {
         return ResponseEntity.ok(userService.registerUser(request));
     }
 
-    @GetMapping("/verify")
-    public ResponseEntity<String> verify(@RequestParam String token) {
-        String result = userService.verifyUser(token);
-        if (result.equals("Account verified successfully!")) {
-            return ResponseEntity.status(HttpStatus.FOUND).header("Location", "http://localhost:4200/login").build();
-        }
-        return ResponseEntity.badRequest().body("Invalid verification token!");
-    }
 
-    @PostMapping("/login")
-    public ResponseEntity<ResponseEntity<?>> login(@Valid @RequestBody LoginDto request) {
-        return ResponseEntity.ok(userService.login(request));
-    }
 }
