@@ -33,5 +33,8 @@ public class AuthController {
         return ResponseEntity.badRequest().body("Invalid verification token!");
     }
 
-
+    @PostMapping("/login")
+    public ResponseEntity<ResponseEntity<?>> login(@Valid @RequestBody LoginDto request) {
+        return ResponseEntity.ok(userService.login(request));
+    }
 }
