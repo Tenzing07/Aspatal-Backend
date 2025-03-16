@@ -48,4 +48,15 @@ public class DoctorController {
         return doctorService.getPatientPrescriptionHistory(patientId);
     }
 
-    
+    @PostMapping("/prescriptions")
+    public ResponseEntity<Map<String, String>> createPrescription(
+            @RequestBody Map<String, Object> request) {
+        Long patientId = Long.valueOf(request.get("patientId").toString());
+        String content = request.get("content").toString();
+        return doctorService.createPrescription(patientId, content);
+    }
+    @GetMapping("/profile")
+    public ResponseEntity<Map<String, Object>> getDoctorProfile() {
+        return doctorService.getDoctorProfile();
+    }
+}
