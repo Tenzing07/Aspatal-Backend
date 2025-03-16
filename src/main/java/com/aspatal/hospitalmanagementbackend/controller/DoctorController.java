@@ -28,35 +28,3 @@ public class DoctorController {
         return doctorService.getDoctorAppointments(date);
     }
 
-    @PutMapping("/appointments/{id}")
-    public ResponseEntity<Map<String, String>> updateAppointmentStatus(
-            @PathVariable Long id, @RequestBody Map<String, String> request) {
-        String status = request.get("status");
-        return doctorService.updateAppointmentStatus(id, status);
-    }
-
-    @GetMapping("/patients")
-    public ResponseEntity<List<Map<String, Object>>> getAssignedPatients() {
-        return doctorService.getAssignedPatients();
-    }
-    @GetMapping("/patients/{patientId}/visits")
-    public ResponseEntity<List<Appointment>> getPatientVisitHistory(@PathVariable Long patientId) {
-        return doctorService.getPatientVisitHistory(patientId);
-    }
-    @GetMapping("/patients/{patientId}/prescriptions")
-    public ResponseEntity<List<Prescription>> getPatientPrescriptionHistory(@PathVariable Long patientId) {
-        return doctorService.getPatientPrescriptionHistory(patientId);
-    }
-
-    @PostMapping("/prescriptions")
-    public ResponseEntity<Map<String, String>> createPrescription(
-            @RequestBody Map<String, Object> request) {
-        Long patientId = Long.valueOf(request.get("patientId").toString());
-        String content = request.get("content").toString();
-        return doctorService.createPrescription(patientId, content);
-    }
-    @GetMapping("/profile")
-    public ResponseEntity<Map<String, Object>> getDoctorProfile() {
-        return doctorService.getDoctorProfile();
-    }
-}
