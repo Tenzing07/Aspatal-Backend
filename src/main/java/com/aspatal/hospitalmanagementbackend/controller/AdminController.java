@@ -22,9 +22,9 @@ public class AdminController {
     // ✅ Add Employee Endpoint
     @PostMapping("/employees")
     public ResponseEntity<Map<String, String>> addEmployee(@RequestBody EmployeeDto employeeDto) {
-        return ResponseEntity.ok(userService.addEmployee(employeeDto));
-    }
 
+        return userService.addEmployee(employeeDto);
+    }
     // NEW: Get All Employees Endpoint
     @GetMapping("/employees")
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
@@ -50,21 +50,4 @@ public class AdminController {
         return userService.updateEmployee(id, employeeDto);
     }
 
-    // ✅ 5. Delete employee
-    @DeleteMapping("/employees/{id}")
-    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-        return userService.deleteEmployee(id);
-    }
-
-
-    @GetMapping("/patients")
-    public ResponseEntity<List<EmployeeDto>> getAllPatients() {
-        return userService.getAllPatients();
-    }
-    // Delete patient
-    @DeleteMapping("patients/{id}")
-    public ResponseEntity<?> deletePatient(@PathVariable Long id) {
-        return userService.deletePatient(id);
-    }
-
-}
+    
