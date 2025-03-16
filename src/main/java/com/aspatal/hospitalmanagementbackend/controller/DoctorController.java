@@ -39,3 +39,13 @@ public class DoctorController {
     public ResponseEntity<List<Map<String, Object>>> getAssignedPatients() {
         return doctorService.getAssignedPatients();
     }
+    @GetMapping("/patients/{patientId}/visits")
+    public ResponseEntity<List<Appointment>> getPatientVisitHistory(@PathVariable Long patientId) {
+        return doctorService.getPatientVisitHistory(patientId);
+    }
+    @GetMapping("/patients/{patientId}/prescriptions")
+    public ResponseEntity<List<Prescription>> getPatientPrescriptionHistory(@PathVariable Long patientId) {
+        return doctorService.getPatientPrescriptionHistory(patientId);
+    }
+
+    
