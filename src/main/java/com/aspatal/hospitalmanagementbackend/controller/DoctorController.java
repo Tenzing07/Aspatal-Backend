@@ -28,3 +28,14 @@ public class DoctorController {
         return doctorService.getDoctorAppointments(date);
     }
 
+    @PutMapping("/appointments/{id}")
+    public ResponseEntity<Map<String, String>> updateAppointmentStatus(
+            @PathVariable Long id, @RequestBody Map<String, String> request) {
+        String status = request.get("status");
+        return doctorService.updateAppointmentStatus(id, status);
+    }
+
+    @GetMapping("/patients")
+    public ResponseEntity<List<Map<String, Object>>> getAssignedPatients() {
+        return doctorService.getAssignedPatients();
+    }
