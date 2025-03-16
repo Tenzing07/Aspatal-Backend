@@ -22,9 +22,9 @@ public class AdminController {
     // ✅ Add Employee Endpoint
     @PostMapping("/employees")
     public ResponseEntity<Map<String, String>> addEmployee(@RequestBody EmployeeDto employeeDto) {
-
-        return userService.addEmployee(employeeDto);
+        return ResponseEntity.ok(userService.addEmployee(employeeDto));
     }
+
     // NEW: Get All Employees Endpoint
     @GetMapping("/employees")
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
