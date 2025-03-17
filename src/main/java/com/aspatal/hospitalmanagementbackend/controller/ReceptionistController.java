@@ -80,3 +80,14 @@ public class  ReceptionistController {
         return receptionistService.getReceptionistProfile();
     }
 
+    @PostMapping("/booking-requests/{requestId}/accept")
+    public ResponseEntity<Map<String, String>> acceptBookingRequest(@PathVariable Long requestId) {
+        return receptionistService.acceptBookingRequest(requestId);
+    }
+
+    @GetMapping("/booking-requests")
+    public ResponseEntity<List<BookingRequest>> getAllBookingRequests() {
+        return receptionistService.getAllBookingRequest();
+    }
+
+}
