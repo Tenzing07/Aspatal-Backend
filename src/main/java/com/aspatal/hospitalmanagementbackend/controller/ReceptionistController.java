@@ -66,3 +66,17 @@ public class  ReceptionistController {
     public ResponseEntity<List<EmployeeDto>> getAllDoctors() {
         return receptionistService.getAllDoctors();
     }
+    @GetMapping("/prescriptions")
+    public ResponseEntity<List<Prescription>> getAllPrescriptions() {
+        return receptionistService.getAllPrescriptions();
+    }
+
+    @GetMapping("/patients/{patientId}/prescriptions")
+    public ResponseEntity<List<Prescription>> getPrescriptionsByPatient(@PathVariable Long patientId) {
+        return receptionistService.getPrescriptionsByPatient(patientId);
+    }
+    @GetMapping("/profile")
+    public ResponseEntity<Map<String, Object>> getReceptionistProfile() {
+        return receptionistService.getReceptionistProfile();
+    }
+
