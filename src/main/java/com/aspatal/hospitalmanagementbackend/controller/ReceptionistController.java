@@ -38,3 +38,22 @@ public class  ReceptionistController {
         return receptionistService.registerPatient(name, email, phoneNumber);
     }
 
+    @PostMapping("/appointments")
+    public ResponseEntity<Map<String, String>> scheduleAppointment(
+            @RequestBody Map<String, String> request) {
+        Long patientId = Long.valueOf(request.get("patientId"));
+        Long doctorId = Long.valueOf(request.get("doctorId"));
+        LocalDate date = LocalDate.parse(request.get("date"));
+        LocalTime time = LocalTime.parse(request.get("time"));
+        return receptionistService.assignPatientToDoctor(patientId, doctorId, date, time);
+    }
+
+    @GetMapping("/appointments")
+    public ResponseEntity<List<Appointment>> getAppointmentsByDate(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return receptionistService.getAppointmentsByDate(date);
+    }
+    @GetMapping("/allAppointments")
+    public ResponseEntity<List<Appointment>> getAppointments() {
+        return receptionistService.getAppointments();
+    }
