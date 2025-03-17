@@ -57,3 +57,12 @@ public class  ReceptionistController {
     public ResponseEntity<List<Appointment>> getAppointments() {
         return receptionistService.getAppointments();
     }
+    @GetMapping("/assigned-patients")
+    public ResponseEntity<List<EmployeeDto>> getAssignedPatients() {
+        return receptionistService.getAssignedPatients();
+    }
+
+    @GetMapping("/doctors")
+    public ResponseEntity<List<EmployeeDto>> getAllDoctors() {
+        return receptionistService.getAllDoctors();
+    }
