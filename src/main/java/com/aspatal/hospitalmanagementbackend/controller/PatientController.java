@@ -33,3 +33,15 @@ public class PatientController {
         LocalTime time = LocalTime.parse(request.get("time").toString());
         return patientService.requestAppointment(doctorId, date, time);
     }
+
+    @GetMapping("/booking-requests")
+    public ResponseEntity<List<BookingRequest>> getBookingRequests() {
+        return patientService.getBookingRequests();
+    }
+
+    @GetMapping("/prescriptions")
+    public ResponseEntity<List<Prescription>> getPrescriptions() {
+        return patientService.getPrescriptions();
+    }
+
+  
