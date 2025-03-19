@@ -49,3 +49,10 @@ public class PatientController {
         return patientService.getMedicalHistory();
     }
 
+    @DeleteMapping("/profile")
+    public ResponseEntity<Map<String, String>> deletePatientRecord() {
+        return patientService.deletePatientRecord();
+    }
+
+
+}
