@@ -34,32 +34,3 @@ public class PatientController {
         return patientService.requestAppointment(doctorId, date, time);
     }
 
-    @GetMapping("/booking-requests")
-    public ResponseEntity<List<BookingRequest>> getBookingRequests() {
-        return patientService.getBookingRequests();
-    }
-
-    @GetMapping("/prescriptions")
-    public ResponseEntity<List<Prescription>> getPrescriptions() {
-        return patientService.getPrescriptions();
-    }
-
-    @GetMapping("/medical-history")
-    public ResponseEntity<List<Appointment>> getMedicalHistory() {
-        return patientService.getMedicalHistory();
-    }
-
-    @DeleteMapping("/profile")
-    public ResponseEntity<Map<String, String>> deletePatientRecord() {
-        return patientService.deletePatientRecord();
-    }
-
-    @GetMapping("/doctors")
-    public ResponseEntity<List<Map<String, Object>>> getAvailableDoctors() {
-        return patientService.getAvailableDoctors();
-    }
-    @GetMapping("/myprofile")
-    public ResponseEntity<Map<String, Object>> getPatientProfile() {
-        return patientService.getPatientProfile();
-    }
-}
