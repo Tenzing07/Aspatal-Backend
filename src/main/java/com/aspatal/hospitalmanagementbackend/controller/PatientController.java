@@ -58,3 +58,8 @@ public class PatientController {
     public ResponseEntity<List<Map<String, Object>>> getAvailableDoctors() {
         return patientService.getAvailableDoctors();
     }
+    @GetMapping("/myprofile")
+    public ResponseEntity<Map<String, Object>> getPatientProfile() {
+        return patientService.getPatientProfile();
+    }
+}
