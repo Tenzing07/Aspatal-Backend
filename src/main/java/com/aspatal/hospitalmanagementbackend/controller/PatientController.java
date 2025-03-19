@@ -44,3 +44,8 @@ public class PatientController {
         return patientService.getPrescriptions();
     }
 
+    @GetMapping("/medical-history")
+    public ResponseEntity<List<Appointment>> getMedicalHistory() {
+        return patientService.getMedicalHistory();
+    }
+
