@@ -54,5 +54,7 @@ public class PatientController {
         return patientService.deletePatientRecord();
     }
 
-
-}
+    @GetMapping("/doctors")
+    public ResponseEntity<List<Map<String, Object>>> getAvailableDoctors() {
+        return patientService.getAvailableDoctors();
+    }
