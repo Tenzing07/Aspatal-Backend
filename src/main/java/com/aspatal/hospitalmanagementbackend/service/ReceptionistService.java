@@ -128,4 +128,68 @@ public class ReceptionistService {
         return ResponseEntity.ok(doctors);
     }
 
-   }
+    private String generateRandomPassword() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            password.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return password.toString();
+    }
+
+    private EmployeeDto convertPatientToDto(Patient patient) {
+        return new EmployeeDto(
+                patient.getUserId(),
+                patient.getName(),
+                patient.getUser().getEmail(),
+                patient.getPhoneNumber(),
+                patient.getUser().getRole(),
+                null,
+                null,
+                0
+        );
+    }
+
+    private EmployeeDto convertDoctorToDto(Doctor doctor) {
+        return new EmployeeDto(
+                doctor.getUserId(),
+                doctor.getName(),
+                doctor.getUser().getEmail(),
+                doctor.getPhoneNumber(),
+                doctor.getUser().getRole(),
+                doctor.getNmcNumber(),
+                doctor.getSpeciality(),
+                doctor.getOpdFee()
+        );
+    }
+    public ResponseEntity<List<Prescription>> getAllPrescriptions() {
+        List<Prescription> prescriptions = prescriptionRepository.findAll();
+        return ResponseEntity.ok(prescriptions);
+    }
+    public ResponseEntity<List<BookingRequest>>getAllBookingRequest(){
+        List<BookingRequest> requests = bookingRequestRepository.findAll();
+        return ResponseEntity.ok(requests);
+    }
+
+    public ResponseEntity<List<Prescription>> getPrescriptionsByPatient(Long patientId) {
+        List<Prescription> prescriptions = prescriptionRepository.findByPatientUserId(patientId);
+        return ResponseEntity.ok(prescriptions);
+    }
+    public ResponseEntity<Map<String, Object>> getReceptionistProfile() {
+        Long receptionistId = getCurrentReceptionistId();
+        Optional<Receptionist> receptionistOpt = receptionistRepository.findById(receptionistId);
+        if (receptionistOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Receptionist not found"));
+        }
+        Receptionist receptionist = receptionistOpt.get();
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("id", receptionist.getUserId());
+        profile.put("name", receptionist.getName());
+        profile.put("email", receptionist.getUser().getEmail());
+        return ResponseEntity.ok(profile);
+    }
+
+
+   
