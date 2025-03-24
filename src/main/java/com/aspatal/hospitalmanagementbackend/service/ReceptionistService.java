@@ -225,4 +225,24 @@ public class ReceptionistService {
         return ResponseEntity.ok(Map.of("message", "Booking request accepted and appointment scheduled"));
     }
 
-   
+    @Transactional
+    public ResponseEntity<Map<String, String>> declineBookingRequest(Long requestId) {
+        Optional<BookingRequest> requestOpt = bookingRequestRepository.findById(requestId);
+        if (requestOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Booking request not found"));
+        }
+
+        BookingRequest request = requestOpt.get();
+        if (!request.getStatus().equals("PENDING")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Request already processed"));
+        }
+
+        request.setStatus("DECLINED");
+        bookingRequestRepository.save(request);
+
+        return ResponseEntity.ok(Map.of("message", "Booking request declined"));
+    }
+
+}
