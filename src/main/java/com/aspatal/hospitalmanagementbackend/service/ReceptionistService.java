@@ -74,4 +74,58 @@ public class ReceptionistService {
                 .body(Map.of("message", "Patient registered successfully!", "password", generatedPassword));
     }
 
-  
+    public ResponseEntity<List<EmployeeDto>> getAllPatients() {
+        List<EmployeeDto> patients = patientRepository.findAll().stream()
+                .map(this::convertPatientToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(patients);
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> assignPatientToDoctor(Long patientId, Long doctorId, LocalDate date, LocalTime time) {
+        Optional<Patient> patientOpt = patientRepository.findById(patientId);
+        Optional<Doctor> doctorOpt = doctorRepository.findById(doctorId);
+
+        if (patientOpt.isEmpty() || doctorOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Patient or Doctor not found"));
+        }
+
+        Appointment appointment = new Appointment();
+        appointment.setPatient(patientOpt.get());
+        appointment.setDoctor(doctorOpt.get());
+        appointment.setAppointmentDate(date);
+        appointment.setAppointmentTime(time);
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
+
+        appointmentRepository.save(appointment);
+
+        return ResponseEntity.ok(Map.of("message", "Appointment scheduled successfully!"));
+    }
+
+
+    public ResponseEntity<List<Appointment>> getAppointmentsByDate(LocalDate date) {
+        List<Appointment> appointments = appointmentRepository.findByAppointmentDate(date);
+        return ResponseEntity.ok(appointments);
+    }
+    public ResponseEntity<List<Appointment>> getAppointments() {
+        List<Appointment> appointments = appointmentRepository.findAll();
+        return ResponseEntity.ok(appointments);
+    }
+    public ResponseEntity<List<EmployeeDto>> getAssignedPatients() {
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<EmployeeDto> assignedPatients = appointments.stream()
+                .map(appointment -> convertPatientToDto(appointment.getPatient()))
+                .distinct()
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(assignedPatients);
+    }
+
+    public ResponseEntity<List<EmployeeDto>> getAllDoctors() {
+        List<EmployeeDto> doctors = doctorRepository.findAll().stream()
+                .map(this::convertDoctorToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(doctors);
+    }
+
+   }
