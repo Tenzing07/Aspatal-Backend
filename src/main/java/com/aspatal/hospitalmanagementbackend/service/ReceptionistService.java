@@ -192,4 +192,37 @@ public class ReceptionistService {
     }
 
 
+    public ResponseEntity<List<BookingRequest>> getAllBookingRequests() {
+        List<BookingRequest> requests = bookingRequestRepository.findAll();
+        return ResponseEntity.ok(requests);
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> acceptBookingRequest(Long requestId) {
+        Optional<BookingRequest> requestOpt = bookingRequestRepository.findById(requestId);
+        if (requestOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Booking request not found"));
+        }
+
+        BookingRequest request = requestOpt.get();
+        if (!request.getStatus().equals("PENDING")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Request already processed"));
+        }
+
+        Appointment appointment = new Appointment();
+        appointment.setPatient(request.getPatient());
+        appointment.setDoctor(request.getDoctor());
+        appointment.setAppointmentDate(request.getRequestDate());
+        appointment.setAppointmentTime(request.getRequestTime());
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
+        appointmentRepository.save(appointment);
+
+        request.setStatus("ACCEPTED");
+        bookingRequestRepository.save(request);
+
+        return ResponseEntity.ok(Map.of("message", "Booking request accepted and appointment scheduled"));
+    }
+
    
